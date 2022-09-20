@@ -136,12 +136,50 @@ const joinJSONArr = (baseJA, updateJA, uniqueKey, uniqueKeyInUpdate) => {
 }
 
 // JSON 배열에서 value를 기준으로 JSON 값을 찾아낸다
-const getJSONFromJSONArr = (jsonArr, key, value) =>{
-    if(!isArray(jsonArr) || isNone(key) || isNone(value)) return {};
+const getJSONFromJSONArr = (jsonArr, unique, value) =>{
+    if(!isArray(jsonArr) || isNone(unique) || isNone(value)) return {};
     for(var i in jsonArr){
-        if(jsonArr[i][key] == value) return jsonArr[i]
+        if(jsonArr[i][unique] == value) return jsonArr[i]
     }
     return {};
+}
+
+// JSON 배열에서 Value로 찾아서 삭제 후 리턴
+// deep copy 안함
+const popJSONFromJSONArr = (jsonArr, key, uniqueValue) =>{
+    if(!isArray(jsonArr) || isNone(key) || isNone(uniqueValue)) return {};
+    for(var i in jsonArr){
+        if(jsonArr[i][key] == uniqueValue){
+            return jsonArr.splice(i, 1); 
+        } 
+    }
+    return {};
+}
+
+/*
+updateJA = [
+            {key : 4,value3 : "h",value4 : "C"},
+            {key : 7,value1 : "a",value3 : "k",value4 : "j"},
+            {key : 3,value3 : "Cd",value4 : "Cg"},
+            {myKey : 5,value3 : "C",value4 : "C","json" : { "a" : 1, "json" : { "b" : 2 }}},
+            {key : 1,value1 : "z",value3 : "d",value4 : "e"}
+        ]
+        delJSONFromJSONArr(updateJA, "value4", "C")
+        popJSONFromJSONArr(updateJA, "value4", "Cg")
+*/
+
+// JSON 배열에서 Value로 찾아서 삭제 후 삭제한 개수 리턴
+// deep copy 안함
+const delJSONFromJSONArr = (jsonArr, key, value) =>{
+    if(!isArray(jsonArr) || isNone(key) || isNone(value)) return {};
+    let cnt = 0
+    for(var i in jsonArr){
+        if(jsonArr[i][key] == value){
+            cnt++
+            jsonArr.splice(i, 1); 
+        } 
+    }
+    return cnt;
 }
 
 // a와 b를 문자열로 비교한다. sort 함수를 위해 true, false로 나오지 않음
