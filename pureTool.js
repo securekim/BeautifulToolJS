@@ -1,3 +1,19 @@
+const isDate = (str="") => {
+    return (str instanceof Date)	
+}
+
+const strToDate = (str="") => {
+    if(str == "") return new Date()
+    return new Date(str)
+}
+
+const diffSec = (a="", b="") => {
+    aDt = strToDate(a);
+    bDt = strToDate(b);
+    interval = aDt > bDt ? aDt.getTime() - bDt.getTime() : bDt.getTime() - aDt.getTime();
+    return Math.floor(interval / 1000)
+}
+	
 
 //salt와 str을 더해서 해시하고 base64 인코딩
 const getEncodedHash = (str="", salt="") => {
