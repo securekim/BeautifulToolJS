@@ -2,6 +2,30 @@ const fs = require('fs')
 const axios = require("axios")
 const crypto = require('crypto')
 
+
+// let order = parseSortFromRestfulAPIForKnex("-timestamp,idx")
+// order [{ column: 'timestamp', order: 'desc' }, { column: 'idx', order :'asc' }] 
+// knex('users').orderBy( order )
+const parseSortFromRestfulAPIForKnex = (orderBy) => {
+    //sort=-timestamp,idx
+    let jsonArr = []
+    if(typeof orderBy == "undefined") return jsonArr;
+    orderBy = orderBy.split(",")
+    for(var i in orderBy){
+        let tmpJson = {}
+        if(orderBy[i][0]=='-'){
+            tmpJson["column"] = orderBy[i].slice(1)
+            tmpJson["order"] = "desc"
+        } else {
+            tmpJson["column"] = orderBy[i]
+            tmpJson["order"] = "asc"
+        }
+        jsonArr.push(tmpJson)
+    }
+    return jsonArr
+}
+
+
 //salt와 str을 합쳐서 해시 후 base64 인코딩
 const getEncodedHash = (str="", salt="") => {
     let newStr = salt + str.toString()
