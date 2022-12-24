@@ -2,6 +2,11 @@ const isDate = (str="") => {
     return (str instanceof Date)	
 }
 
+const addSecDate = (sec=0, str="") => {
+	const date = strToDate(str);
+	return date2format(date.setSeconds(date.getSeconds() + sec))
+}
+
 const date2format = (str="") => {
 	const TIME_ZONE = 3240 * 10000; // FOR KOREA TIME
 	const d = strToDate(str)
