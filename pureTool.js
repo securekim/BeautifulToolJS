@@ -2,6 +2,16 @@ const isDate = (str="") => {
     return (str instanceof Date)	
 }
 
+const date2format = (str="") => {
+	const TIME_ZONE = 3240 * 10000; // FOR KOREA TIME
+	const d = strToDate(str)
+
+	const date = new Date(+d + TIME_ZONE).toISOString().split('T')[0];
+	const time = d.toTimeString().split(' ')[0];
+
+	return date + ' ' + time
+}
+
 const strToDate = (str="") => {
     if(str == "") return new Date()
     return new Date(str)
